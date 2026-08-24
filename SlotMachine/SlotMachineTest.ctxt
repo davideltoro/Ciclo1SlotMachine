@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.target=SlotMachineTest
+comment0.text=\r\n\ Pruebas\ unitarias\ b\u00E1sicas\ para\ la\ clase\ SlotMachine.\r\n\ \r\n\ @author\ Juan\ Castellanos\ -\ Nicole\ Paez\r\n\ @version\ 1.0\r\n
+comment1.params=
+comment1.target=void\ setUp()
+comment1.text=\r\n\ Crea\ una\ m\u00E1quina\ nueva\ antes\ de\ cada\ prueba\ (sin\ hacerla\ visible,\r\n\ para\ no\ abrir\ ventanas\ durante\ las\ pruebas).\r\n
+comment2.params=
+comment2.target=void\ tearDown()
+comment2.text=\r\n\ Libera\ la\ referencia\ despu\u00E9s\ de\ cada\ prueba.\r\n
+comment3.params=
+comment3.target=void\ testAddWheel()
+comment4.params=
+comment4.target=void\ testDelWheelOnEmptyFails()
+comment5.params=
+comment5.target=void\ testAddSymbol()
+comment6.params=
+comment6.target=void\ testAddDuplicateSymbolFails()
+comment7.params=
+comment7.target=void\ testDelSymbolNotFoundFails()
+comment8.params=
+comment8.target=void\ testIsJackpotWhenAllSame()
+comment9.params=
+comment9.target=void\ testIsNotJackpotWhenDifferent()
+numComments=10

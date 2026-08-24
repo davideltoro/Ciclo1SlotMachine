@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Symbol
+comment0.text=\r\n\ Un\ s\u00EDmbolo\ de\ la\ m\u00E1quina\ tragamonedas,\ identificado\ por\ su\ color.\r\n\ Cada\ s\u00EDmbolo\ dibuja\ su\ propio\ c\u00EDrculo\ en\ el\ canvas.\r\n\ \r\n\ @author\ Juan\ Castellanos\ -\ Nicole\ Paez\r\n\ @version\ 1.0\r\n
+comment1.params=color
+comment1.target=Symbol(java.lang.String)
+comment1.text=\r\n\ Crea\ un\ s\u00EDmbolo\ con\ el\ color\ dado.\r\n\ @param\ color\ el\ color\ del\ s\u00EDmbolo\ (nombre\ CSS,\ ej.\ "red")\r\n
+comment2.params=
+comment2.target=void\ makeVisible()
+comment2.text=\r\n\ Hace\ visible\ el\ s\u00EDmbolo\ en\ el\ canvas.\r\n
+comment3.params=
+comment3.target=void\ makeInvisible()
+comment3.text=\r\n\ Hace\ invisible\ el\ s\u00EDmbolo\ en\ el\ canvas.\r\n
+comment4.params=
+comment4.target=java.lang.String\ getColor()
+comment4.text=\r\n\ @return\ el\ color\ del\ s\u00EDmbolo\r\n
+comment5.params=x\ y
+comment5.target=void\ placeAt(int,\ int)
+comment5.text=\r\n\ Mueve\ el\ c\u00EDrculo\ del\ s\u00EDmbolo\ a\ la\ posici\u00F3n\ absoluta\ (x,\ y).\r\n\ Se\ usar\u00E1\ para\ ubicarlo\ dentro\ de\ la\ ventana\ de\ una\ rueda.\r\n\ @param\ x\ posici\u00F3n\ horizontal\ destino\r\n\ @param\ y\ posici\u00F3n\ vertical\ destino\r\n
+numComments=6
