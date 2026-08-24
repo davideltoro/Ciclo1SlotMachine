@@ -1,0 +1,45 @@
+Retrospectiva.
+1) ¿Cuáles fueron los mini-ciclos definidos? Justifíquenlos.
+
+ Mini-ciclo 1: Estructura básica de la máquina
+Se crea la clase SlotMachine, se definen las clases adicionales necesarias y se establece la representación visual inicial del simulador. También se implementan las operaciones para hacer visible o invisible la máquina y finalizar el simulador.
+
+
+ Mini-ciclo 2: Administración de ruedas y símbolos
+Se implementan las funcionalidades para adicionar y eliminar ruedas, adicionar y eliminar símbolos, y ubicar un símbolo en una rueda determinada.
+
+
+ Mini-ciclo 3: Funcionamiento de la máquina
+Se implementa el giro de una rueda específica y el giro de todas las ruedas. También se actualiza la representación visual de la máquina después de cada giro.
+
+
+ Mini-ciclo 4: Consultas y estado ganador
+Se implementan las consultas de los símbolos, la cantidad de símbolos distintos, la configuración visible de la máquina y la verificación del estado ganador o jackpot. También se incluye el manejo del estado de la última operación mediante ok() y los mensajes de error cuando una acción no puede realizarse.
+
+2. ¿Cuál es el estado actual del proyecto en términos de mini-ciclos? ¿por qué?
+
+El proyecto completó los 4 mini-ciclos planificados. El mini-ciclo 1 (estructura básica y carcasa visual) y el mini-ciclo 2 (adición/eliminación de ruedas y símbolos, placeSymbol) están terminados y probados manualmente en BlueJ. El mini-ciclo 3 (spin/spin() y actualización visual tras cada giro) también está completo, El mini-ciclo 4 (consultas, isJackpot(), manejo de ok() y mensajes de error) se cerró último. En este punto el simulador cumple los 8 requisitos funcionales de la entrega; no se implementó todavía la resolución del problema de la maratón, como indica explícitamente el enunciado que no debía hacerse en este ciclo.
+
+3. ¿Cuál fue el tiempo total invertido por cada uno de ustedes? (Horas/Hombre)
+
+Nicole Paez invirtió aproximadamente 30 horas trabajando de forma individual. Juan David Castellanos invirtió aproximadamente 30 horas de forma individual, principalmente Adicionalmente, se trabajaron 20 horas en conjunto mediante pair programming, principalmente en el diseño de las relaciones entre clases y la depuración de errores visuales
+
+4. ¿Cuál consideran fue el mayor logro? ¿Por qué?
+
+Resolver correctamente la relación entre SlotMachine, Wheel y Symbol respetando el diagrama de clases dado, evitando duplicar la lista de símbolos en cada rueda. Fue clave entender que Wheel solo necesita guardar un índice (currentPosition) hacia la lista maestra de symbols en SlotMachine, y que la representación visual de "qué símbolo muestra una rueda" no podía depender de mover el mismo círculo compartido entre varias ventanas — de ahí surgió el diseño del indicador de color propio en Wheel. Esto permitió que el jackpot (todas las ruedas con el mismo símbolo) funcionara de forma consistente sin duplicar objetos
+
+5. ¿Cuál consideran que fue el mayor problema técnico? ¿Qué hicieron para resolverlo?
+
+de pronto el mayor problema técnico que tuvimos fue la de trabajar juntos, ya que no compartimos tantos espacios en los que podemos trabajar en la universidad, asi que nos toco de forma virtual, nos comprometemos a ajustar mas los tiempos para poder reunirnos en persona.
+
+6. ¿Qué hicieron bien como equipo? ¿Qué se comprometen a hacer para mejorar los resultados?
+Como equipo, mantuvimos buena comunicación al dividir el trabajo, y revisamos juntos cada error de compilación o comportamiento inesperado antes de seguir avanzando, en vez de acumular bugs sin resolver. Nos comprometemos a documentar las decisiones de diseño (como por qué una relación es composición y no uso) a medida que se toman, en lugar de reconstruirlas de memoria después, y a escribir las pruebas unitarias en paralelo con cada mini-ciclo en vez de dejarlas todas para el final.
+
+7. Considerando las prácticas XP incluidas en los laboratorios. ¿cuál fue la más útil? ¿por qué?
+
+La más útil fue pair programming. Trabajar juntos en tiempo real sobre las clases del proyecto permitió detectar errores de diseño temprano (como el problema de compartir un mismo símbolo entre varias ruedas) antes de que se propagaran a más código, y facilitó decisiones de arquitectura discutidas en el momento en vez de tener que deshacer trabajo después. También ayudó a mantener consistencia de estilo entre las clases escritas por cada integrante.
+
+8. ¿Qué referencias usaron? ¿Cuál fue la más útil? Incluyan citas con estándares adecuados.
+Claude; usado únicamente como apoyo de consulta puntual para dudas de sintaxis Java y revisión de diseño orientado a objetos, no para generar la solución del problema de la maratón.
+Libro; como Programar en java
+Videos; de uso GitHub y manejo de pruebas en JUnit
