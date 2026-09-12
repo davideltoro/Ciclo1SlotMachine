@@ -204,6 +204,158 @@ public class SlotMachine
         }
         return pos;
     }
+     
+
+    /**
+     * Actualiza el color visible del indicador de una rueda para que
+     * coincida con el símbolo que le corresponde según su posición actual.
+     * @param w la rueda a actualizar
+     */
+    private void updateWheelVisual(Wheel w)
+    {
+        if(!symbols.isEmpty()) {
+            int pos = w.getCurrentPosition();
+            w.showSymbol(symbols.get(pos - 1).getColor());
+        }
+    }
+
+    /**
+     * Ciclo 2 - Mini-ciclo 5: Intercambiar ruedas
+     * Intercambia los símbolos que muestran dos ruedas.
+     * @param wheel1 posición de la primera rueda (1-based)
+     * @param wheel2 posición de la segunda rueda (1-based)
+     */
+    public void swap(int wheel1, int wheel2)
+    {
+        if(wheels.size() < 2) {
+            ok = false;
+            showError("Se necesitan al menos dos ruedas para intercambiar.");
+            return;
+        }
+        int i1 = fixPosition(wheel1, wheels.size());
+        int i2 = fixPosition(wheel2, wheels.size());
+        Wheel w1 = wheels.get(i1 - 1);
+        Wheel w2 = wheels.get(i2 - 1);
+
+        int temp = w1.getCurrentPosition();
+        w1.setCurrentPosition(w2.getCurrentPosition());
+        w2.setCurrentPosition(temp);
+
+        updateWheelVisual(w1);
+        updateWheelVisual(w2);
+
+        changesJackpot();
+        ok = true;
+    }
+
+    /**
+     * Ciclo 2 - Mini-ciclo 6: Fijar y soltar una rueda
+     * Fija una rueda para que no gire hasta que se suelte.
+     * @param wheel posición de la rueda a fijar (1-based)
+     */
+    public void lock(int wheel)
+    {
+        if(wheels.isEmpty()) {
+            ok = false;
+            showError("No hay ruedas para fijar.");
+            return;
+        }
+        int index = fixPosition(wheel, wheels.size());
+        wheels.get(index - 1).setHeld(true);
+        ok = true;
+    }
+
+    /**
+     * Ciclo 2 - Mini-ciclo 6: Fijar y soltar una rueda
+     * Suelta una rueda previamente fijada.
+     * @param wheel posición de la rueda a soltar (1-based)
+     */
+    public void unlock(int wheel)
+    {
+        if(wheels.isEmpty()) {
+            ok = false;
+            showError("No hay ruedas para soltar.");
+            return;
+        }
+        int index = fixPosition(wheel, wheels.size());
+        wheels.get(index - 1).setHeld(false);
+        ok = true;
+    }
+
+    /**
+     * Ciclo 2 - Mini-ciclo 7: Rotar una rueda n pasos
+     * Sobrecarga de spin: rota una rueda un número de pasos dentro de la
+     * lista de símbolos, dando la vuelta si se pasa del final (o del
+     * inicio, si steps es negativo). No hace nada si la rueda está fijada.
+     * @param wheel posición de la rueda a rotar (1-based)
+     * @param steps número de pasos a avanzar (puede ser negativo)
+     */
+    public void spin(int wheel, int steps)
+    {
+        if(wheels.isEmpty() || symbols.isEmpty()) {
+            ok = false;
+            showError("No hay ruedas o símbolos para rotar.");
+            return;
+        }
+        int index = fixPosition(wheel, wheels.size());
+        Wheel w = wheels.get(index - 1);
+        if(w.isHeld()) {
+            ok = false;
+            showError("La rueda está fijada, suéltela antes de rotar.");
+            return;
+        }
+
+        int size = symbols.size();
+        int newIndex = (w.getCurrentPosition() - 1 + steps) % size;
+        if(newIndex < 0) {
+            newIndex += size;
+        }
+        w.setCurrentPosition(newIndex + 1);
+        updateWheelVisual(w);
+
+        changesJackpot();
+        ok = true;
+    }
+
+    /**
+     * Ciclo 2 - Mini-ciclo 8: Dejar la máquina en una configuración dada
+     * Sobrecarga de spin: deja la máquina en la configuración dada, un
+     * color por cada rueda, en el mismo orden de las ruedas. Las ruedas
+     * fijadas no se modifican.
+     * @param setSymbols arreglo con el color deseado para cada rueda
+     */
+    public void spin(String[] setSymbols)
+    {
+        if(wheels.isEmpty() || symbols.isEmpty()) {
+            ok = false;
+            showError("No hay ruedas o símbolos disponibles.");
+            return;
+        }
+        if(setSymbols.length != wheels.size()) {
+            ok = false;
+            showError("La cantidad de colores no coincide con la cantidad de ruedas.");
+            return;
+        }
+        for(int i = 0; i < setSymbols.length; i++) {
+            if(indexOfColor(setSymbols[i]) == -1) {
+                ok = false;
+                showError("No existe un símbolo de color \"" + setSymbols[i] + "\".");
+                return;
+            }
+        }
+
+        for(int i = 0; i < setSymbols.length; i++) {
+            Wheel w = wheels.get(i);
+            if(!w.isHeld()) {
+                int sIndex = indexOfColor(setSymbols[i]);
+                w.setCurrentPosition(sIndex + 1);
+                updateWheelVisual(w);
+            }
+        }
+
+        changesJackpot();
+        ok = true;
+    }
         /**
      * Ubica el símbolo del color indicado en la rueda indicada.
      * @param wheel posición de la rueda (1-based)
@@ -242,8 +394,13 @@ public class SlotMachine
             return;
         }
         int wIndex = fixPosition(wheel, wheels.size());
-        int randomIndex = (int)(Math.random() * symbols.size());
         Wheel w = wheels.get(wIndex - 1);
+        if(w.isHeld()) {
+            ok = false;
+            showError("La rueda está fijada, suéltela antes de girar.");
+            return;
+        }
+        int randomIndex = (int)(Math.random() * symbols.size());
         w.setCurrentPosition(randomIndex + 1);
         w.showSymbol(symbols.get(randomIndex).getColor());
         changesJackpot();
@@ -262,13 +419,24 @@ public class SlotMachine
         }
     }    
     /**
-     * Gira todas las ruedas de la máquina.
+     * Gira todas las ruedas de la máquina, saltando las que estén fijadas.
      */
     public void spin()
     {
-        for(int i = 1; i <= wheels.size(); i++) {
-            spin(i);
+        if(wheels.isEmpty() || symbols.isEmpty()) {
+            ok = false;
+            showError("No hay ruedas o símbolos para girar.");
+            return;
         }
+        for(Wheel w : wheels) {
+            if(!w.isHeld()) {
+                int randomIndex = (int)(Math.random() * symbols.size());
+                w.setCurrentPosition(randomIndex + 1);
+                w.showSymbol(symbols.get(randomIndex).getColor());
+            }
+        }
+        changesJackpot();
+        ok = true;
     }
     
     /**

@@ -12,6 +12,7 @@ public class Wheel
     private int currentPosition;
     private Rectangle window;
     private Circle indicator;
+    private boolean held;
 
     /**
      * Crea una rueda en la posición 1 por defecto, con su ventana
@@ -23,6 +24,7 @@ public class Wheel
         currentPosition = 1;
         int targetX = 45 + (slotIndex - 1) * 50;
         int targetY = 90;
+        held = false;
 
         window = new Rectangle();
         window.changeSize(60, 40);
@@ -55,6 +57,22 @@ public class Wheel
     public void setCurrentPosition(int pos)
     {
         currentPosition = pos;
+    }
+    /**
+     * @return true si la rueda está fijada (no debe girar)
+     */
+    public boolean isHeld()
+    {
+        return held;
+    }
+
+    /**
+     * Fija o suelta la rueda.
+     * @param held true para fijarla, false para soltarla
+     */
+    public void setHeld(boolean held)
+    {
+        this.held = held;
     }
 
     /**
